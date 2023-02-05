@@ -1,130 +1,234 @@
-<div id="clock">
-  <div class="card hour tens"></div>
-  <div class="card hour ones"></div>
-  <div class="card minute tens"></div>
-  <div class="card minute ones"></div>
-  <div class="card second tens"></div>
-  <div class="card second ones"></div>
-  <div class="card ampm"></div>
-</div>
-
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Digital Flip Card Clock | EL Creative Academy</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
 <style>
-.flip-clock {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+body {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	height: 100vh;
 }
 
-.card {
-  height: 50px;
-  width: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
-  font-size: 20px;
-  color: white;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.5s;
-  overflow: hidden;
-}
-
-.front,
-.back {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  backface-visibility: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.back {
-  transform: rotateY(180deg);
+.clock {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
 }
 
 .flip {
-  transform: rotateY(180deg);
+	position: relative;
+	width: 60px;
+	height: 100px;
+	margin: 2px;
+	font-size: 66px;
+	line-height: 100px;
+	text-align: center;
+	border: 1px solid black;
+	border-radius: 10px;
+	-webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+	        box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+.digital::before,
+.digital::after {
+	position: absolute;
+	content: attr(data-number);
+	left: 0;
+	right: 0;
+	color: white;
+	background: black;
+	overflow: hidden;
+	-webkit-perspective: 160px;
+	        perspective: 160px;
+}
+
+.digital::before {
+	top: 0;
+	bottom: 50%;
+	border-bottom: 1px solid #666;
+	border-radius: 10px 10px 0 0;
+}
+
+.digital::after {
+	top: 50%;
+	bottom: 0;
+	line-height: 0;
+	border-radius: 0 0 10px 10px;
+}
+
+.digital.front::after,
+.digital.back::before {
+	z-index: 1;
+}
+
+.digital.back::after {
+	-webkit-transform-origin: top center;
+	    -ms-transform-origin: top center;
+	        transform-origin: top center;
+	-webkit-transform: rotateX(0.5turn);
+	        transform: rotateX(0.5turn);
+	z-index: 2;
+}
+
+.digital.front::before {
+	z-index: 3;
+}
+
+.divider {
+	font-size: 66px;
+	line-height: 102px;
+	font-style: normal;
+}
+
+.flip.running .front::before {
+	-webkit-transform-origin: center bottom;
+	    -ms-transform-origin: center bottom;
+	        transform-origin: center bottom;
+	-webkit-animation: frontFlipDown 0.6s ease-in-out;
+	        animation: frontFlipDown 0.6s ease-in-out;
+	-webkit-box-shadow: 0 -2px 6px rgba(255, 255, 255, 0.3);
+	        box-shadow: 0 -2px 6px rgba(255, 255, 255, 0.3);
+	-webkit-backface-visibility: hidden;
+	        backface-visibility: hidden;
+}
+
+.flip.running .back::after {
+	-webkit-animation: backFlipDown 0.6s ease-in-out;
+	        animation: backFlipDown 0.6s ease-in-out;
+}
+
+@-webkit-keyframes frontFlipDown {
+	to {
+		-webkit-transform: rotateX(0.5turn);
+		        transform: rotateX(0.5turn);
+	}
+}
+
+@keyframes frontFlipDown {
+	to {
+		-webkit-transform: rotateX(0.5turn);
+		        transform: rotateX(0.5turn);
+	}
+}
+
+@-webkit-keyframes backFlipDown {
+	to {
+		-webkit-transform: rotateX(0);
+		        transform: rotateX(0);
+	}
+}
+
+@keyframes backFlipDown {
+	to {
+		-webkit-transform: rotateX(0);
+		        transform: rotateX(0);
+	}
 }
 </style>
+<body>
+	<div class="clock">
+		<div class="flip">
+			<div class="digital front" data-number="0"></div>
+			<div class="digital back" data-number="1"></div>
+		</div>
+		<div class="flip">
+			<div class="digital front" data-number="0"></div>
+			<div class="digital back" data-number="1"></div>
+		</div>
 
+		<em class="divider"> : </em>
 
+		<div class="flip">
+			<div class="digital front" data-number="0"></div>
+			<div class="digital back" data-number="1"></div>
+		</div>
+		<div class="flip">
+			<div class="digital front" data-number="0"></div>
+			<div class="digital back" data-number="1"></div>
+		</div>
+
+		<em class="divider"> : </em>
+
+		<div class="flip">
+			<div class="digital front" data-number="0"></div>
+			<div class="digital back" data-number="1"></div>
+		</div>
+		<div class="flip">
+			<div class="digital front" data-number="0"></div>
+			<div class="digital back" data-number="1"></div>
+		</div>
+	</div>
+	<script type="text/javascript" src="script.js"></script>
+</body>
 <script>
-  let currentHourTens = null;
-  let currentHourOnes = null;
-  let currentMinuteTens = null;
-  let currentMinuteOnes = null;
-  let currentSecondTens = null;
-  let currentSecondOnes = null;
-  let currentAmPm = null;
+var Flipper = function() {
+	function Flipper(node, currentTime, nextTime) {
+		this.isFlipping = false;
+		this.duration = 600;
+		this.flipNode = node;
+		this.frontNode = node.querySelector(".front");
+		this.backNode = node.querySelector(".back");
+		this.setFrontTime(currentTime);
+		this.setBackTime(nextTime);
+	}
+	Flipper.prototype.setFrontTime = function (time) {
+		this.frontNode.dataset.number = time;
+	};
+	Flipper.prototype.setBackTime = function (time) {
+		this.backNode.dataset.number = time;
+	};
+	Flipper.prototype.flipDown = function (currentTime, nextTime) {
+		var _this = this;
 
-  function updateClock() {
-    const date = new Date();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
+		if (this.isFlipping) {
+			return false;
+		}
 
-    const hourTens = Math.floor(hours / 10);
-    const hourOnes = hours % 10;
-    const minuteTens = Math.floor(minutes / 10);
-    const minuteOnes = minutes % 10;
-    const secondTens = Math.floor(seconds / 10);
-    const secondOnes = seconds % 10;
+		this.isFlipping = true;
+		this.setFrontTime(currentTime);
+		this.setBackTime(nextTime);
+		this.flipNode.classList.add("running");
+		setTimeout(function() {
+			_this.flipNode.classList.remove("running");
+			_this.isFlipping = false;
+			_this.setFrontTime(nextTime);
+		}, this.duration);
+	};
+	return Flipper;
+}();
 
-    if (hourTens !== currentHourTens) {
-      currentHourTens = hourTens;
-      document.querySelector('.hour.tens .front').innerHTML = hourTens;
-      document.querySelector('.hour.tens .back').innerHTML = hourTens;
-      document.querySelector('.hour.tens').classList.toggle('flip');
-    }
+var getTimeFromDate = function (date) {
+	return date.toTimeString().slice(0, 8).split(":").join("");
+};
 
-      if (hourOnes !== currentHourOnes) {
-    currentHourOnes = hourOnes;
-    document.querySelector('.hour.ones .front').innerHTML = hourOnes;
-    document.querySelector('.hour.ones .back').innerHTML = hourOnes;
-    document.querySelector('.hour.ones').classList.toggle('flip');
-  }
+var flips = document.querySelectorAll(".flip");
+var now = new Date();
+var nowTimeStr = getTimeFromDate(new Date(now.getTime() - 1000));
+var nextTimeStr = getTimeFromDate(now);
+var Flippers = Array.from(flips).map(function (flip, i) {
+	return new Flipper(flip, nowTimeStr[i], nextTimeStr[i]);
+});
 
-  if (minuteTens !== currentMinuteTens) {
-    currentMinuteTens = minuteTens;
-    document.querySelector('.minute.tens .front').innerHTML = minuteTens;
-    document.querySelector('.minute.tens .back').innerHTML = minuteTens;
-    document.querySelector('.minute.tens').classList.toggle('flip');
-  }
+setInterval(function () {
+	var now = new Date();
+	var nowTimeStr = getTimeFromDate(new Date(now.getTime() - 1000));
+	var nextTimeStr = getTimeFromDate(now);
 
-  if (minuteOnes !== currentMinuteOnes) {
-    currentMinuteOnes = minuteOnes;
-    document.querySelector('.minute.ones .front').innerHTML = minuteOnes;
-    document.querySelector('.minute.ones .back').innerHTML = minuteOnes;
-    document.querySelector('.minute.ones').classList.toggle('flip');
-  }
-
-  if (secondTens !== currentSecondTens) {
-    currentSecondTens = secondTens;
-    document.querySelector('.second.tens .front').innerHTML = secondTens;
-    document.querySelector('.second.tens .back').innerHTML = secondTens;
-    document.querySelector('.second.tens').classList.toggle('flip');
-  }
-
-  if (secondOnes !== currentSecondOnes) {
-    currentSecondOnes = secondOnes;
-    document.querySelector('.second.ones .front').innerHTML = secondOnes;
-    document.querySelector('.second.ones .back').innerHTML = secondOnes;
-    document.querySelector('.second.ones').classList.toggle('flip');
-  }
-
-  if (ampm !== currentAmPm) {
-    currentAmPm = ampm;
-    document.querySelector('.ampm .front').innerHTML = ampm;
-    document.querySelector('.ampm .back').innerHTML = ampm;
-    document.querySelector('.ampm').classList.toggle('flip');
-  }
-}
-
-setInterval(updateClock, 1000);
+	for (var i = 0; i < Flippers.length; i++) {
+		if (nowTimeStr[i] === nextTimeStr[i]) {
+			continue;
+		}
+		Flippers[i].flipDown(nowTimeStr[i], nextTimeStr[i]);
+	}
+}, 1000);
 </script>
-
+</html>
