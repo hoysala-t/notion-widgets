@@ -1,7 +1,10 @@
 <div id="clock">
-  <div class="card hour"></div>
-  <div class="card minute"></div>
-  <div class="card second"></div>
+  <div class="card hour tens"></div>
+  <div class="card hour ones"></div>
+  <div class="card minute tens"></div>
+  <div class="card minute ones"></div>
+  <div class="card second tens"></div>
+  <div class="card second ones"></div>
   <div class="card ampm"></div>
 </div>
 
@@ -28,28 +31,35 @@
     transition: all 0.5s ease;
   }
 
-  .hour .front,
-  .minute .front,
-  .second .back {
+  .front,
+  .back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .front {
     transform: rotateX(0deg) translateZ(50px);
   }
 
-  .hour .back,
-  .minute .back,
-  .second .front {
-    transform: rotateX(180deg) translateZ(50px);
-  }
-
-  .ampm .front {
-    transform: rotateX(0deg) translateZ(50px);
-  }
-
-  .ampm .back {
+  .back {
     transform: rotateX(180deg) translateZ(50px);
   }
 </style>
 
 <script>
+  let currentHourTens = null;
+  let currentHourOnes = null;
+  let currentMinuteTens = null;
+  let currentMinuteOnes = null;
+  let currentSecondTens = null;
+  let currentSecondOnes = null;
+  let currentAmPm = null;
+
   function updateClock() {
     const date = new Date();
     const hours = date.getHours();
@@ -57,17 +67,63 @@
     const seconds = date.getSeconds();
     const ampm = hours >= 12 ? 'PM' : 'AM';
 
-    const hourDegrees = (hours % 12) * 30 + minutes / 2;
-    const minuteDegrees = minutes * 6;
-    const secondDegrees = seconds * 6;
+    const hourTens = Math.floor(hours / 10);
+    const hourOnes = hours % 10;
+    const minuteTens = Math.floor(minutes / 10);
+    const minuteOnes = minutes % 10;
+    const secondTens = Math.floor(seconds / 10);
+    const secondOnes = seconds % 10;
 
-    document.querySelector('.hour').style.transform = `rotateX(${hourDegrees}deg)`;
-    document.querySelector('.minute').style.transform = `rotateX(${minuteDegrees}deg)`;
-    document.querySelector('.second').style.transform = `rotateX(${secondDegrees}deg)`;
-    document.querySelector('.ampm .front').innerHTML = ampm;
-    document.querySelector('.ampm .back').innerHTML = ampm;
+    if (hourTens !== currentHourTens) {
+      currentHourTens = hourTens;
+      document.querySelector('.hour.tens .front').innerHTML = hourTens;
+      document.querySelector('.hour.tens .back').innerHTML = hourTens;
+      document.querySelector('.hour.tens').classList.toggle('flip');
+    }
+
+      if (hourOnes !== currentHourOnes) {
+    currentHourOnes = hourOnes;
+    document.querySelector('.hour.ones .front').innerHTML = hourOnes;
+    document.querySelector('.hour.ones .back').innerHTML = hourOnes;
+    document.querySelector('.hour.ones').classList.toggle('flip');
   }
 
-  setInterval(updateClock, 1000);
-  updateClock();
+  if (minuteTens !== currentMinuteTens) {
+    currentMinuteTens = minuteTens;
+    document.querySelector('.minute.tens .front').innerHTML = minuteTens;
+    document.querySelector('.minute.tens .back').innerHTML = minuteTens;
+    document.querySelector('.minute.tens').classList.toggle('flip');
+  }
+
+  if (minuteOnes !== currentMinuteOnes) {
+    currentMinuteOnes = minuteOnes;
+    document.querySelector('.minute.ones .front').innerHTML = minuteOnes;
+    document.querySelector('.minute.ones .back').innerHTML = minuteOnes;
+    document.querySelector('.minute.ones').classList.toggle('flip');
+  }
+
+  if (secondTens !== currentSecondTens) {
+    currentSecondTens = secondTens;
+    document.querySelector('.second.tens .front').innerHTML = secondTens;
+    document.querySelector('.second.tens .back').innerHTML = secondTens;
+    document.querySelector('.second.tens').classList.toggle('flip');
+  }
+
+  if (secondOnes !== currentSecondOnes) {
+    currentSecondOnes = secondOnes;
+    document.querySelector('.second.ones .front').innerHTML = secondOnes;
+    document.querySelector('.second.ones .back').innerHTML = secondOnes;
+    document.querySelector('.second.ones').classList.toggle('flip');
+  }
+
+  if (ampm !== currentAmPm) {
+    currentAmPm = ampm;
+    document.querySelector('.ampm .front').innerHTML = ampm;
+    document.querySelector('.ampm .back').innerHTML = ampm;
+    document.querySelector('.ampm').classList.toggle('flip');
+  }
+}
+
+setInterval(updateClock, 1000);
 </script>
+
