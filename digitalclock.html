@@ -2,9 +2,26 @@
   <head>
     <style>
       #clock {
-        font-family: "7-Segment";
         font-size: 48px;
         text-align: center;
+      }
+
+      .segment {
+        display: inline-block;
+        margin: 2px;
+        border: 2px solid black;
+        border-radius: 2px;
+        height: 30px;
+        width: 10px;
+        vertical-align: top;
+      }
+
+      .horizontal {
+        width: 24px;
+      }
+
+      .top, .bottom {
+        width: 10px;
       }
     </style>
   </head>
@@ -18,7 +35,51 @@
         let minutes = date.getMinutes();
         let seconds = date.getSeconds();
         let time = `${hours}:${minutes}:${seconds}`;
-        document.getElementById("clock").innerHTML = time;
+
+        let segments = [
+          { nums: [0, 2, 3, 5, 6, 7, 8, 9], class: "top" },
+          { nums: [0, 4, 5, 6, 8, 9], class: "top right" },
+          { nums: [0, 1, 2, 3, 4, 7, 8, 9], class: "bottom right" },
+          { nums: [2, 3, 5, 6, 8, 9], class: "bottom" },
+          { nums: [0, 2, 6, 8], class: "bottom left" },
+          { nums: [0, 4, 5, 6, 8, 9], class: "top left" },
+          { nums: [0, 1, 3, 4, 5, 6, 7, 8, 9], class: "middle" },
+        ];
+
+        let html = `
+          <div style="display:inline-block;">
+        `;
+
+        for (let i = 0; i < time.length; i++) {
+          let char = time[i];
+          if (char === ":") {
+            html += `
+              </div>
+              <div style="display:inline-block;margin:0 10px;">:</div>
+              <div style="display:inline-block;">
+            `;
+            continue;
+          }
+          let num = parseInt(char);
+          for (let j = 0; j < segments.length; j++) {
+            let segment = segments[j];
+            if (segment.nums.includes(num)) {
+              html += `
+                <div class="segment ${segment.class}"></div>
+              `;
+            } else {
+              html += `
+                <div class="segment"></div>
+              `;
+            }
+          }
+        }
+
+        html += `
+          </div>
+        `;
+
+        document.getElementById("clock").innerHTML = html;
       }
       setInterval(updateTime, 1000);
     </script>
