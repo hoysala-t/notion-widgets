@@ -2,8 +2,8 @@
   <head>
     <style>
       #clock {
-        font-family: "Notion";
-        font-size: 36px;
+        font-family: "7-Segment";
+        font-size: 48px;
         text-align: center;
       }
     </style>
@@ -14,7 +14,10 @@
     <script>
       function updateTime() {
         let date = new Date();
-        let time = date.toLocaleTimeString();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        let time = `${hours}:${minutes}:${seconds}`;
         document.getElementById("clock").innerHTML = time;
       }
       setInterval(updateTime, 1000);
