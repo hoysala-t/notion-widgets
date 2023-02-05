@@ -1,25 +1,60 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+      /* Add styles for body */
+      body {
+        font-family: 'Open Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
       /* Add styles for header */
       header {
         background-color: #333;
         color: white;
-        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
         text-align: center;
       }
 
       /* Add styles for section */
       section {
-        padding: 20px;
+        background-color: #f9f9f9;
+        padding: 60px 20px;
+        text-align: center;
       }
 
       /* Add styles for responsive layout */
       @media (min-width: 576px) {
-        header, section {
-          padding: 40px;
+        section {
+          padding: 100px 40px;
         }
+      }
+
+      /* Add styles for h1 */
+      h1 {
+        font-size: 36px;
+        font-weight: 600;
+        margin: 0;
+        padding: 20px;
+      }
+
+      /* Add styles for p */
+      p {
+        font-size: 18px;
+        font-weight: 400;
+        margin: 40px 0;
+      }
+
+      /* Add styles for img */
+      img {
+        max-width: 100%;
+        height: auto;
+        margin: 40px 0;
       }
     </style>
   </head>
@@ -33,6 +68,7 @@
     <section>
       <p>Our widgets enhance your Notion experience by bringing additional functionality to your pages.</p>
       <img src="hoysala-notion-widgets.png" alt="Hoysala's Notion Widgets">
+      <p>Discover new ways to work with Notion, try our widgets today!</p>
     </section>
   </body>
 </html>
