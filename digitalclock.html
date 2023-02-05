@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <style>
+      #clock {
+        font-family: "Notion";
+        font-size: 36px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="clock"></div>
+
+    <script>
+      function updateTime() {
+        let date = new Date();
+        let time = date.toLocaleTimeString();
+        document.getElementById("clock").innerHTML = time;
+      }
+      setInterval(updateTime, 1000);
+    </script>
+  </body>
+</html>
